@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#174c43">
+  <title>可悠福利中心 · 管理后台</title>
+  <link rel="stylesheet" href="../css/admin.css?v=tg1">
+  <script>
+    if (sessionStorage.getItem("keyou-lottery-admin-session") === "1") {
+      document.documentElement.dataset.authed = "1";
+    }
+  </script>
+</head>
+<body>
+  <div id="admin-root" aria-label="教师节福利抽奖后台">
+    <section class="login-screen" data-login-screen aria-label="后台登录">
+      <form class="login-card" data-login-form autocomplete="on">
+        <div class="login-brand"><div class="brand-mark"><i data-lucide="gift" aria-hidden="true"></i></div><strong>可悠福利中心</strong></div>
+        <h1>登录管理后台</h1>
+        <p>请输入账号和密码后再进入奖品、卡密与领取记录</p>
+        <label class="form-field" for="login-username">账号</label>
+        <input id="login-username" class="field" name="username" type="text" autocomplete="username" required>
+        <label class="form-field" for="login-password">密码</label>
+        <input id="login-password" class="field" name="password" type="password" autocomplete="current-password" required>
+        <p class="login-error" data-login-error role="alert"></p>
+        <button class="btn btn-primary login-submit" type="submit">登录</button>
+      </form>
+    </section>
+    <div class="admin-shell">
+      <aside class="admin-side">
+        <div class="brand"><div class="brand-mark"><i data-lucide="gift" aria-hidden="true"></i></div><strong>可悠福利中心</strong></div>
+        <div class="side-label">活动管理</div>
+        <nav class="side-nav" aria-label="后台导航">
+          <button type="button" data-scroll-to="overview" title="活动概览"><i data-lucide="layout-dashboard" aria-hidden="true"></i><span>活动概览</span></button>
+          <button class="active" type="button" data-scroll-to="prize-panel" title="奖品配置"><i data-lucide="sliders-horizontal" aria-hidden="true"></i><span>奖品配置</span></button>
+          <button type="button" data-scroll-to="card-panel" title="卡密发放"><i data-lucide="key-round" aria-hidden="true"></i><span>卡密发放</span></button>
+          <button type="button" data-scroll-to="record-panel" title="领取记录"><i data-lucide="history" aria-hidden="true"></i><span>领取记录</span></button>
+        </nav>
+        <div class="side-label">系统</div>
+        <nav class="side-nav" aria-label="系统导航">
+          <button type="button" data-scroll-to="settings-panel" title="基础设置"><i data-lucide="settings-2" aria-hidden="true"></i><span>基础设置</span></button>
+        </nav>
+      </aside>
+
+      <div class="admin-main">
+        <header class="admin-top">
+          <div class="crumb">活动管理 / <strong data-crumb>奖品配置</strong></div>
+          <div class="top-right"><span>可悠老师</span><div class="avatar">悠</div><button class="btn" type="button" data-logout>退出登录</button></div>
+        </header>
+
+        <main class="content">
+          <div class="page-heading">
+            <div><h1 data-heading-name>教师节福利</h1><p data-heading-copy>配置老师专属发放的抽奖奖池与中奖规则</p></div>
+            <div class="heading-actions">
+              <a class="btn" href="../index.html" target="_blank" rel="noopener">查看用户页</a>
+              <button class="btn btn-primary" type="button" data-save>保存配置</button>
+            </div>
+          </div>
+
+          <section class="overview admin-view" id="overview" data-view="overview" aria-label="活动概览">
+            <div class="metric"><div class="metric-label"><span>活动状态</span><i data-lucide="circle-check" aria-hidden="true"></i></div><div class="metric-value" data-metric-status>进行中</div><div class="metric-foot" data-metric-end>有效期至 09月30日</div></div>
+            <div class="metric"><div class="metric-label"><span>已发放卡密</span><i data-lucide="key-round" aria-hidden="true"></i></div><div class="metric-value" data-metric-cards>0</div><div class="metric-foot"><em data-metric-cards-today>+0</em> 今日新增</div></div>
+            <div class="metric"><div class="metric-label"><span>已抽奖人数</span><i data-lucide="users" aria-hidden="true"></i></div><div class="metric-value" data-metric-draws>0</div><div class="metric-foot" data-metric-rate>中奖率 —</div></div>
+            <div class="metric"><div class="metric-label"><span>剩余奖品</span><i data-lucide="package" aria-hidden="true"></i></div><div class="metric-value" data-total-stock>0</div><div class="metric-foot">奖池总量</div></div>
+          </section>
+
+          <div class="workspace admin-view is-active" data-view="prize-panel">
+            <section class="panel" id="prize-panel" aria-label="奖品数量配置">
+              <div class="panel-head"><div><h2>奖品配置</h2><p>设置奖品数量，以及抽中后是否返回奖池</p></div><span class="gift-status" data-prize-count>共 0 个奖项</span></div>
+              <div class="panel-body">
+                <div class="config-note"><i data-lucide="info" aria-hidden="true"></i><span>转盘扇区大小固定均分；奖品名称和颜色会显示在转盘上，可发放数量只影响中奖概率。</span></div>
+                <div class="prize-head"><span>奖品名称</span><span>可发放数量</span><span>抽后返回奖池</span><span>操作</span></div>
+                <div class="prize-list" data-prize-list></div>
+                <button class="add-prize" type="button" data-add-prize><i data-lucide="plus" aria-hidden="true"></i>&nbsp;新增奖品</button>
+                <div class="thanks-box"><div><strong>谢谢惠顾</strong><p>固定返回奖池，抽中后次数不减，会一直留在转盘上。</p></div><div class="thanks-input"><input class="field" type="number" value="100" min="0" data-thanks><span>次</span></div></div>
+                <div class="saved-toast" aria-live="polite" data-saved></div>
+              </div>
+            </section>
+
+            <aside class="panel preview-panel" aria-label="用户抽奖页预览">
+              <div class="panel-head"><div><h2>用户页预览</h2><p>当前奖池即时预览</p></div><i data-lucide="eye" aria-hidden="true"></i></div>
+              <div class="preview-body">
+                <div class="preview-screen">
+                  <div class="preview-banner"><p data-preview-teacher>可悠老师 · 亲自发放</p><strong data-preview-name>教师节福利</strong></div>
+                  <div class="preview-content">
+                    <div class="preview-label">抽奖转盘</div>
+                    <div class="preview-wheel" data-preview-wheel></div>
+                    <div class="preview-summary">
+                      <div><span>领取方式</span><strong>卡密验证</strong></div>
+                      <div><span>使用范围</span><strong>当前订单</strong></div>
+                    </div>
+                    <div class="preview-legend"><span class="legend-dot"></span>验证卡密后可抽奖</div>
+                  </div>
+                </div>
+              </div>
+            </aside>
+          </div>
+
+          <section class="panel card-panel admin-view" id="card-panel" data-view="card-panel" aria-label="创建卡密">
+            <div class="panel-head"><div><h2>创建卡密</h2><p>生成卡密后发给已支付定金或完成预约的用户</p></div><span class="gift-status">批量创建</span></div>
+            <div class="panel-body card-create-layout">
+              <div>
+                <div class="card-form">
+                  <div class="form-field"><label for="card-quantity">生成数量</label><input id="card-quantity" class="field" type="number" value="10" min="1" max="5000"></div>
+                  <div class="form-field"><label for="card-validity">有效期</label><select id="card-validity" class="field"><option>领取后 7 天</option><option>领取后 30 天</option><option selected>活动结束前有效</option></select></div>
+                  <div class="form-field"><label for="card-condition">发放条件</label><select id="card-condition" class="field"><option>支付定金后</option><option>完成预约后</option><option selected>支付定金或完成预约</option></select></div>
+                  <div class="form-field"><label for="card-prefix">卡密前缀</label><input id="card-prefix" class="field" type="text" value="KYJIE"></div>
+                  <div class="form-field full"><p class="form-help">每张卡密仅可使用 1 次，用户验证成功后解锁抽奖资格。</p></div>
+                </div>
+                <div class="card-form-actions">
+                  <button class="btn btn-primary" type="button" data-create-cards>生成卡密</button>
+                  <button class="btn" type="button" data-copy-cards>复制最近生成</button>
+                  <span class="saved-toast" aria-live="polite" data-card-created></span>
+                </div>
+              </div>
+              <div class="generated-list">
+                <h3>最近生成</h3>
+                <div data-code-list></div>
+                <p class="card-footnote">生成后可复制发送给对应用户。同一卡密默认只能抽 1 次。</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel settings-panel admin-view" id="settings-panel" data-view="settings-panel" aria-label="活动基本设置">
+            <div class="panel-head"><div><h2>活动基本设置</h2><p>管理活动名称、时间和用户参与条件</p></div><span class="gift-status">基础信息</span></div>
+            <div class="panel-body">
+              <div class="settings-grid">
+                <div class="form-field wide"><label for="activity-name">活动名称</label><input id="activity-name" class="field" type="text"></div>
+                <div class="form-field"><label for="activity-status">活动状态</label><select id="activity-status" class="field"><option>进行中</option><option>暂停发放</option><option>已结束</option></select></div>
+                <div class="form-field"><label for="activity-start">开始时间</label><input id="activity-start" class="field" type="text"></div>
+                <div class="form-field"><label for="activity-end">结束时间</label><input id="activity-end" class="field" type="text"></div>
+                <div class="form-field full"><label for="activity-copy">用户页说明</label><input id="activity-copy" class="field" type="text"></div>
+              </div>
+              <div class="settings-switches">
+                <label><span class="switch"><input id="setting-card-only" type="checkbox"><span></span></span>仅限卡密用户参与</label>
+                <label><span class="switch"><input id="setting-one-use" type="checkbox"><span></span></span>每个卡密限用 1 次</label>
+                <label><span class="switch"><input id="setting-remind" type="checkbox"><span></span></span>活动结束前自动提醒</label>
+              </div>
+              <div class="auth-box">
+                <div><strong>后台登录</strong><p>修改后下次登录生效。密码留空表示不改。</p></div>
+                <div class="settings-grid">
+                  <div class="form-field"><label for="admin-username">后台账号</label><input id="admin-username" class="field" type="text" autocomplete="username"></div>
+                  <div class="form-field"><label for="admin-password">新密码</label><input id="admin-password" class="field" type="password" autocomplete="new-password" placeholder="不改请留空"></div>
+                  <div class="form-field"><label for="admin-password-confirm">确认新密码</label><input id="admin-password-confirm" class="field" type="password" autocomplete="new-password" placeholder="再次输入"></div>
+                </div>
+                <p class="saved-toast" aria-live="polite" data-auth-saved></p>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel record-panel admin-view" id="record-panel" data-view="record-panel" aria-label="领取记录">
+            <div class="panel-head"><div><h2>领取记录</h2><p>查看 Telegram 用户、卡密使用和中奖结果</p></div><button class="btn" type="button" data-export-records><i data-lucide="download" aria-hidden="true"></i>&nbsp;导出记录</button></div>
+            <div class="panel-body">
+              <div class="record-toolbar">
+                <div class="record-filter">
+                  <select class="field" data-record-filter aria-label="记录状态筛选"><option value="all">全部状态</option><option value="win">已中奖</option><option value="thanks">谢谢惠顾</option></select>
+                  <input class="field" type="text" data-record-search placeholder="搜索卡密 / 用户名 / ID" aria-label="搜索卡密、用户名或 Telegram ID">
+                </div>
+                <span class="gift-status" data-record-count>共 0 条记录</span>
+              </div>
+              <div style="overflow-x:auto">
+                <table class="record-table">
+                  <thead><tr><th>Telegram 用户</th><th>卡密</th><th>结果</th><th>使用时间</th><th>订单</th><th>状态</th></tr></thead>
+                  <tbody data-record-body></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+  </div>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="../js/store.js?v=noshine"></script>
+  <script src="../js/admin.js?v=tg1"></script>
+</body>
+</html>

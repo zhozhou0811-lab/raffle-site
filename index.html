@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#174c43">
+  <title>教师节福利 · 老师专属减免</title>
+  <link rel="stylesheet" href="css/gift.css?v=grad3">
+  <style>
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(ellipse 80% 40% at 50% -8%, rgba(232, 201, 122, .35), transparent 55%),
+        linear-gradient(180deg, #f6f1e4 0%, #eef3ee 46%, #e5eee8 100%);
+    }
+    #gift-root {
+      min-height: 100dvh;
+      padding: 12px 12px 28px;
+    }
+  </style>
+</head>
+<body>
+  <div id="gift-root" aria-label="老师专属减免福利">
+<main class="gift-page">
+    <header class="gift-nav">
+      <span></span>
+      <strong>专属福利</strong>
+      <button type="button" data-open-rules>活动规则</button>
+    </header>
+    <section class="gift-hero" aria-label="老师专属发放">
+      <div class="gift-hero-pair" aria-label="教师节福利老师照片">
+        <img src="img/hero-1.jpg" alt="为你发放优惠的老师">
+        <img src="img/hero-2.jpg" alt="为你发放优惠的老师">
+      </div>
+      <div class="gift-hero-copy">
+        <p>可悠老师 · 亲自发放</p>
+        <h1>教师节福利</h1>
+      </div>
+    </section>
+
+    <div class="gift-result-host">
+      <div class="gift-body">
+        <section class="gift-amount" aria-label="抽取老师专属奖品">
+          <p>抽取老师专属奖品</p>
+          <p class="gift-subtitle">验证卡密后转动转盘，奖品以转盘名称为准</p>
+        </section>
+
+        <section class="gift-access" aria-label="卡密验证">
+          <div class="gift-access-head"><strong>先验证老师卡密</strong><span class="gift-access-status" data-access-status>未验证</span></div>
+          <p class="gift-access-copy">支付定金或完成预约后，由可悠老师发放卡密。每张卡密抽 1 次，换新卡密可再抽。</p>
+          <div class="gift-access-row"><input type="text" inputmode="text" autocomplete="off" placeholder="请输入卡密" aria-label="请输入老师发放的卡密" data-card-input><button class="gift-verify" type="button" data-verify-card>验证卡密</button></div>
+          <p class="gift-access-error" data-access-error role="alert" aria-live="polite"></p>
+        </section>
+
+        <section class="gift-wheel-area" aria-label="抽取专属奖品">
+          <div class="gift-wheel-frame">
+            <div class="gift-wheel" data-wheel></div>
+          </div>
+          <div class="gift-pointer" aria-hidden="true"></div>
+          <button class="gift-wheel-center" type="button" data-draw aria-label="抽取奖品"><b>抽取</b><span>专属奖品</span></button>
+        </section>
+
+        <button class="gift-action" type="button" data-draw data-main-action>领取老师专属优惠</button>
+        <button class="gift-reward-link" type="button" data-view-reward hidden>查看我的奖励</button>
+        <p class="gift-availability" data-availability aria-live="polite">每张卡密可抽 1 次 · 可更换新卡密</p>
+
+        <div class="gift-sender">
+          <div class="gift-avatar"><img src="img/hero-1.jpg" alt="专属老师头像"></div>
+          <div class="gift-sender-copy"><strong>来自你的专属老师</strong><p>希望这份小小的心意，让你离目标更近一步。</p></div>
+        </div>
+        <details class="gift-rules">
+          <summary>领取与使用规则</summary>
+          <p>支付定金或完成预约后，可向可悠老师领取卡密。输入有效卡密并验证成功后，可抽取 1 次。抽中的金额仅限当前订单抵扣，不可提现或转赠。</p>
+        </details>
+      </div>
+      <div class="gift-modal" data-result hidden>
+        <section class="gift-dialog" role="dialog" aria-modal="true" aria-label="老师福利领取结果">
+          <button class="gift-close" type="button" data-close-result>关闭</button>
+          <div class="gift-avatar"><img src="img/hero-1.jpg" alt="发放福利的老师"></div>
+          <h2>老师为你减一笔</h2>
+          <p>专属优惠已领取</p>
+          <div class="gift-result-amount"><small>¥</small>18</div>
+          <div class="gift-order">
+            <div><span>老师专属减免</span><span>−¥18.00</span></div>
+            <div><span>使用范围</span><strong>当前订单</strong></div>
+          </div>
+          <button class="gift-action" type="button" data-confirm>确认使用优惠</button>
+        </section>
+      </div>
+    </div>
+    <div class="gift-bottom-line" aria-hidden="true"></div>
+  </main>
+  </div>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="js/store.js?v=noshine"></script>
+  <script src="js/gift.js?v=tg1"></script>
+</body>
+</html>
