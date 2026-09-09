@@ -27,6 +27,11 @@ python -m http.server 8768
 
 Telegram 小程序入口：[@zn520Bot](https://t.me/zn520Bot)
 
+线上地址：
+
+- 用户抽奖页：https://zhozhou0811-lab.github.io/raffle-site/
+- 管理后台：https://zhozhou0811-lab.github.io/raffle-site/admin/
+
 ## 贡献指南
 
 本仓库用于可悠福利抽奖活动。如需改规则或奖品，优先在后台配置，不必改代码。
