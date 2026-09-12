@@ -1,0 +1,20 @@
+[Unit]
+Description=raffle lottery store API
+After=network.target
+
+[Service]
+Type=simple
+User=raffleapp
+Group=raffleapp
+WorkingDirectory=/var/www/raffle-site
+Environment=NODE_ENV=production
+Environment=PORT=8769
+Environment=HOST=127.0.0.1
+Environment=RAFFLE_DATA=/var/www/raffle-site/data
+EnvironmentFile=-/var/www/raffle-site/.env
+ExecStart=/usr/bin/node /var/www/raffle-site/server.mjs
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
