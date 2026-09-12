@@ -636,6 +636,10 @@ function applyCards(store, cards) {
 function createCardBatch(store, body) {
   const quantity = Math.min(5000, Math.max(0, Number(body?.quantity) || 0));
   if (!quantity) return { store, created: [] };
+  // 生成新批次时，旧的未使用卡密立即失效，避免旧卡密继续流通。
+  for (const card of store.cards) {
+    if (card.status === "未使用") card.status = "已失效";
+  }
   const prefix = body?.prefix;
   const validity = String(body?.validity || "");
   const condition = String(body?.condition || "");
@@ -669,7 +673,7 @@ function applyDraw(store, body) {
     throw error;
   }
   if (card.status !== "未使用") {
-    const error = new Error("这张卡密已使用");
+    const error = new Error(card.status === "已失效" ? "这张卡密已失效，请向老师获取最新卡密" : "这张卡密已使用");
     error.status = 409;
     throw error;
   }
