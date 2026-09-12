@@ -864,7 +864,7 @@ function clearVerifyFails(key) {
 
 const loginRate = new Map();
 const LOGIN_FAIL_LIMIT = 5;
-const LOGIN_BASE_BAN_MS = 10 * 60 * 1000;
+const LOGIN_BASE_BAN_MS = 5 * 60 * 1000;
 
 async function loadLoginRate() {
   const raw = await readJson(LOGIN_RATE_FILE, null);
@@ -894,7 +894,7 @@ function getLoginRow(key) {
 }
 
 function loginBanMinutes(banLevel) {
-  return 10 * 2 ** (Math.max(1, banLevel) - 1);
+  return 5 * 2 ** (Math.max(1, banLevel) - 1);
 }
 
 function loginBanMessage(row) {
