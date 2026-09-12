@@ -866,6 +866,24 @@ const loginRate = new Map();
 const LOGIN_FAIL_LIMIT = 5;
 const LOGIN_BASE_BAN_MS = 10 * 60 * 1000;
 
+async function loadLoginRate() {
+  const raw = await readJson(LOGIN_RATE_FILE, null);
+  if (!raw || typeof raw !== "object") return;
+  for (const [key, value] of Object.entries(raw)) {
+    if (!value || typeof value !== "object") continue;
+    loginRate.set(key, {
+      fails: Math.max(0, Number(value.fails) || 0),
+      banLevel: Math.max(0, Number(value.banLevel) || 0),
+      banUntil: Math.max(0, Number(value.banUntil) || 0),
+    });
+  }
+}
+
+async function saveLoginRate() {
+  const output = Object.fromEntries(loginRate.entries());
+  await writeJson(LOGIN_RATE_FILE, output);
+}
+
 function getLoginRow(key) {
   let row = loginRate.get(key);
   if (!row) {
@@ -901,7 +919,7 @@ function loginFailLimit(key) {
   return String(key).startsWith("login:account:") ? 20 : LOGIN_FAIL_LIMIT;
 }
 
-function noteLoginFail(keys) {
+async function noteLoginFail(keys) {
   const list = Array.isArray(keys) ? keys : [keys];
   const now = Date.now();
   let locked = null;
@@ -924,20 +942,23 @@ function noteLoginFail(keys) {
     locked = row;
   }
   if (locked) {
+    await saveLoginRate();
     return {
       status: 429,
       error: `密码错误次数过多，已暂时锁定 ${loginBanMinutes(locked.banLevel)} 分钟，请稍后再试`,
     };
   }
+  await saveLoginRate();
   return {
     status: 401,
     error: `账号或密码不对（还可试 ${softRemains} 次）`,
   };
 }
 
-function clearLoginFails(keys) {
+async function clearLoginFails(keys) {
   const list = Array.isArray(keys) ? keys : [keys];
   for (const key of list) loginRate.delete(key);
+  await saveLoginRate();
 }
 
 function loginRateKeys(req, username) {
@@ -1076,7 +1097,7 @@ async function handle(req, res) {
       ? await verifyPassword(password, auth.passwordHash)
       : jsonEqual(legacyDigest(password), auth.passwordHash);
     if (username !== auth.username || !passwordMatches) {
-      const noted = noteLoginFail(keys);
+      const noted = await noteLoginFail(keys);
       send(res, noted.status, { error: noted.error });
       return;
     }
@@ -1086,7 +1107,7 @@ async function handle(req, res) {
       await saveAuth(auth);
       await appendAudit({ action: "auth_hash_migrated", username: auth.username });
     }
-    clearLoginFails(keys);
+    await clearLoginFails(keys);
     await appendAudit({
       action: "admin_login",
       username: auth.username,
@@ -1313,6 +1334,7 @@ async function main() {
   }
   const auth = await loadAuth();
   await loadBannedIps();
+  await loadLoginRate();
   if (!(await readJson(STORE_FILE, null))) await saveStore(defaults());
   await migrateUtcTimesToChina();
   await appendAudit({
